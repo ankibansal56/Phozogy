@@ -18,17 +18,17 @@ public class PhotoServiceImpl implements PhotoService{
 	private ImageRepository imageRepository;
 	
 	@Override
-	public List<Images> uploadPhotos(List<MultipartFile> files) {
+	public List<Images> uploadPhotos(List<MultipartFile> files, Images image) {
 		files.stream().forEach(entry -> {
 			String fileName = StringUtils.cleanPath(entry.getOriginalFilename());
 			try {
 				if(fileName.contains(".."))
 					throw new Exception("Sorry! Filename contains invalid path sequence " + fileName);
-				Images images = new Images("Wedding", "ankit", entry.getBytes());
-				imageRepository.save(images);
+				image.setImageName(fileName);
+				image.setImage(entry.getBytes());
+				imageRepository.save(image);
 			}
 			catch (Exception e) {
-				// TODO: handle exception
 				e.printStackTrace();
 			}
 		});

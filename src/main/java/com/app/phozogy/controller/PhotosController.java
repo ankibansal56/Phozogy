@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,9 +25,12 @@ public class PhotosController {
 	@Autowired
 	ImageRepository imageRepo;
 
-	@PutMapping(value = "/uploadPhotos")
-	public List<Images> uploadFile(@RequestParam("photo") MultipartFile[] files) {
-		return photoService.uploadPhotos(Arrays.asList(files));
+	@PutMapping(value = "/uploadPhotos", 
+				consumes = {MediaType.MULTIPART_FORM_DATA_VALUE},
+				produces = {MediaType.APPLICATION_JSON_VALUE})
+	public ResponseEntity<String> uploadFile(@RequestParam("photo") MultipartFile[] files, Images image) {
+		photoService.uploadPhotos(Arrays.asList(files), image);
+		return ResponseEntity.ok("Success");
 	}
 	
 	@GetMapping(value = "/getPhotos")

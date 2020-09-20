@@ -10,8 +10,8 @@ import com.app.phozogy.entity.Images;
 @Service
 public interface PhotoService {
 
-	public List<Images> uploadPhotos(List<MultipartFile> files);
-	
 	public List<Images> getPhotos(String category);
+
+	List<Images> uploadPhotos(List<MultipartFile> files, Images image);
 	
 }

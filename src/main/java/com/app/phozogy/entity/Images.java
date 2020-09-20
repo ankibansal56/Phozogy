@@ -6,8 +6,6 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
@@ -15,10 +13,10 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Image_Details")
 public class Images {
+	
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	@Column(name = "image_id", unique = true, nullable = false)
-	private Long id;
+	@Column(name = "image_name", unique = true, nullable = false)
+	private String imageName;
 	
 	@Column(name = "category", nullable = false)
 	private String category;
@@ -30,14 +28,6 @@ public class Images {
 	@Basic(fetch = FetchType.LAZY)
 	@Column(name = "image", nullable = false)
 	private byte[] image;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public String getCategory() {
 		return category;
@@ -62,16 +52,25 @@ public class Images {
 	public void setImage(byte[] image) {
 		this.image = image;
 	}
+	
+	public String getImageName() {
+		return imageName;
+	}
+
+	public void setImageName(String imageName) {
+		this.imageName = imageName;
+	}
 
 	public Images() {
 		
 	}
 	
-	public Images(String category, String savedByUser, byte[] image) {
+	public Images(String category, String imageName, String savedByUser, byte[] image) {
 		super();
 		this.category = category;
 		this.savedByUser = savedByUser;
 		this.image = image;
+		this.imageName = imageName;
 	}
 
 	@Override
@@ -79,7 +78,6 @@ public class Images {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((category == null) ? 0 : category.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + Arrays.hashCode(image);
 		result = prime * result + ((savedByUser == null) ? 0 : savedByUser.hashCode());
 		return result;
@@ -98,11 +96,6 @@ public class Images {
 			if (other.category != null)
 				return false;
 		} else if (!category.equals(other.category))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
 			return false;
 		if (!Arrays.equals(image, other.image))
 			return false;
